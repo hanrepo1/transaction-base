@@ -14,11 +14,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 @Service
 public class MembershipService {
@@ -29,9 +29,14 @@ public class MembershipService {
     @Autowired
     private JwtUtil jwtUtil;
 
+    private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+
     public ResponseEntity<Object> registration(RegisterDTO registerDTO, HttpServletRequest request) {
         if (registerDTO.getEmail() == null || registerDTO.getEmail().isEmpty()) {
             return ResponseUtil.validationFailed("Email is required", request);
+        }
+        if (!isValidEmail(registerDTO.getEmail())) {
+            return ResponseUtil.validationFailed("Invalid email format", request);
         }
         if (registerDTO.getPassword() == null || registerDTO.getPassword().isEmpty()) {
             return ResponseUtil.validationFailed("Password is required", request);
@@ -47,6 +52,9 @@ public class MembershipService {
         }
 
         try {
+            if (registerDTO.getPassword().length() < 8) {
+                return ResponseUtil.validationFailed("Password is too short", request);
+            }
             String hashedPassword = Crypto.performEncrypt(registerDTO.getPassword());
 
             User user = new User(registerDTO.getEmail(), hashedPassword, registerDTO.getFirstName(), registerDTO.getLastName());
@@ -62,7 +70,11 @@ public class MembershipService {
         try {
             User existingUser = userRepository.getUserByEmail(loginDTO.getEmail());
             if (existingUser == null) return ResponseUtil.dataNotFound("Email not found", request);
-            if (existingUser.getPassword().equals(loginDTO.getPassword())) {
+            if (loginDTO.getPassword().length() < 8) {
+                return ResponseUtil.validationFailed("Password is too short", request);
+            }
+            String hashedPassword = Crypto.performEncrypt(loginDTO.getPassword());
+            if (existingUser.getPassword().equals(hashedPassword)) {
                 Map<String,Object> mapForClaims = new HashMap<>();
                 mapForClaims.put("uid",existingUser.getId());
                 mapForClaims.put("email",existingUser.getEmail());
@@ -109,8 +121,9 @@ public class MembershipService {
                 }
                 userRepository.updateUser(existingUser);
             }
+            User updatedUser = userRepository.getUserByEmail(email);
 
-            return ResponseUtil.dataFound("Data Found", existingUser , request);
+            return ResponseUtil.dataFound("Data Updated", updatedUser, request);
         } catch (Exception e) {
             return ResponseUtil.validationFailed("An error occurred while fetching the user profile: " + e.getMessage(), request);
         }
@@ -130,15 +143,23 @@ public class MembershipService {
                 return ResponseUtil.validationFailed("No file uploaded", request);
             }
 
-            //example if we use a google cloud storage, which in this matter i will not put the code because it exposes my private key
-//            String imageUrl = uploadFileToCloudStorage(file);
-//            existingUser.setProfileImage(imageUrl);
-
+            //example if we use a cloud storage, which in this matter i will not put the code because it exposes my private key
+            String imageUrl = ImageUploadService.uploadImage(file);
+            existingUser.setProfileImage(imageUrl);
             userRepository.updateUser(existingUser);
+
+            User updatedUser = userRepository.getUserByEmail(email);
+
+            return ResponseUtil.dataFound("Data Updated", updatedUser, request);
 
         } catch (Exception e) {
             return ResponseUtil.validationFailed("An error occurred while fetching the user profile: " + e.getMessage(), request);
         }
+    }
+
+    private boolean isValidEmail(String email) {
+        Pattern pattern = Pattern.compile(EMAIL_REGEX);
+        return pattern.matcher(email).matches();
     }
 
 }
