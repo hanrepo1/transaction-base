@@ -6,13 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="c60bf62b-9826-432e-a8fb-5c666be1f092" name="Changes" comment="added Module Transaction">
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transaction_base/repository/ServiceRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transaction_base/repository/ServiceRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transaction_base/service/TransactionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transaction_base/service/TransactionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transaction_base/model/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transaction_base/model/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transaction_base/repository/ServiceRepository$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transaction_base/repository/ServiceRepository$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transaction_base/repository/ServiceRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transaction_base/repository/ServiceRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transaction_base/repository/UserRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transaction_base/repository/UserRepository.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/sql/schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/sql/schema.sql" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,7 +123,7 @@
       <workItem from="1738315174465" duration="12870000" />
       <workItem from="1738330364276" duration="1954000" />
       <workItem from="1738374784770" duration="8214000" />
-      <workItem from="1738408006496" duration="654000" />
+      <workItem from="1738408006496" duration="943000" />
     </task>
     <task id="LOCAL-00001" summary="added Module Transaction">
       <option name="closed" value="true" />
