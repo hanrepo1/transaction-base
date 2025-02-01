@@ -14,6 +14,7 @@ import com.example.transaction_base.repository.UserRepository;
 import com.example.transaction_base.util.ResponseUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -114,6 +115,8 @@ public class TransactionService {
 
             return ResponseUtil.dataFound("Transaction Success", invoice , request);
 
+        } catch (DataAccessException e) {
+            return ResponseUtil.validationFailed("Database error: " + e.getMessage(), request);
         } catch (Exception e) {
             return ResponseUtil.validationFailed("An error occurred while doing transaction: " + e.getMessage(), request);
         }

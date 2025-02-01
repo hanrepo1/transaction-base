@@ -3,6 +3,7 @@ package com.example.transaction_base.repository;
 import com.example.transaction_base.model.Services;
 import com.example.transaction_base.model.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -36,7 +37,12 @@ public class ServiceRepository {
 
     public Services findServiceCode(String serviceCode) {
         String sql = "SELECT * FROM services WHERE service_code = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{serviceCode}, rowMapper);
+        try {
+            return jdbcTemplate.queryForObject(sql, new Object[]{serviceCode}, rowMapper);
+        } catch (EmptyResultDataAccessException e) {
+            // Return null if no service is found
+            return null;
+        }
     }
 
 }
