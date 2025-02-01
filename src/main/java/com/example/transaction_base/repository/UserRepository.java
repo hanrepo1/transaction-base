@@ -76,7 +76,7 @@ public class UserRepository {
                     rs.getString("first_name"),
                     rs.getString("last_name"),
                     rs.getString("profile_image"),
-                    rs.getLong("balance")
+                    rs.getInt("balance")
             );
         });
     }
@@ -87,7 +87,7 @@ public class UserRepository {
         return count != null && count > 0; // Return true if count is greater than 0
     }
 
-    public void updateUserBalance(Long userId, Long newBalance) {
+    public void updateUserBalance(Long userId, Integer newBalance) {
         String sql = "UPDATE users SET balance = ? WHERE id = ?";
         jdbcTemplate.update(sql, newBalance, userId);
     }

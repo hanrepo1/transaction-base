@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS transactions (
 
 CREATE TABLE IF NOT EXISTS banner (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    banner_name VARCHAR(50) NOT NULL,
+    banner_name VARCHAR(50) NOT NULL UNIQUE,
     banner_image VARCHAR(255) NOT NULL,
     description VARCHAR(255) NOT NULL
 );
@@ -34,7 +34,6 @@ VALUES
     ('Banner 4', 'https://minio.nutech-integrasi.com/take-home-test/banner/Banner-4.png', 'Lorem Ipsum Dolor sit'),
     ('Banner 5', 'https://minio.nutech-integrasi.com/take-home-test/banner/Banner-5.png', 'Lorem Ipsum Dolor sit amet')
 ON DUPLICATE KEY UPDATE
-                     banner_name = VALUES(banner_name),
                      banner_image = VALUES(banner_image),
                      description = VALUES(description);
 
@@ -64,3 +63,13 @@ ON DUPLICATE KEY UPDATE
                      service_name = VALUES(service_name),
                      service_icon = VALUES(service_icon),
                      service_tariff = VALUES(service_tariff);
+
+CREATE TABLE IF NOT EXISTS invoice (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    invoice_number VARCHAR(100) NOT NULL UNIQUE,
+    service_code VARCHAR(50) NOT NULL,
+    service_name VARCHAR(255),
+    transaction_type VARCHAR(255),
+    total_amount BIGINT DEFAULT 0,
+    created_on TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

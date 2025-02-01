@@ -14,9 +14,9 @@ public class User {
     private String lastName;
     private String profileImage;
     @JsonIgnore
-    private Long balance;
+    private Integer balance;
 
-    public User(Long id, String email, String password, String firstName, String lastName, String profileImage, Long balance) {
+    public User(Long id, String email, String password, String firstName, String lastName, String profileImage, Integer balance) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -81,11 +81,11 @@ public class User {
         this.profileImage = profileImage;
     }
 
-    public Long getBalance() {
+    public Integer getBalance() {
         return balance;
     }
 
-    public void setBalance(Long balance) {
+    public void setBalance(Integer balance) {
         this.balance = balance;
     }
 }

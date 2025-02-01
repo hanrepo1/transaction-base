@@ -1,6 +1,7 @@
 package com.example.transaction_base.repository;
 
 import com.example.transaction_base.model.Services;
+import com.example.transaction_base.model.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -31,6 +32,11 @@ public class ServiceRepository {
     public List<Services> findAll() {
         String sql = "SELECT * FROM services";
         return jdbcTemplate.query(sql, rowMapper);
+    }
+
+    public Services findServiceCode(String serviceCode) {
+        String sql = "SELECT * FROM services WHERE service_code = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{serviceCode}, rowMapper);
     }
 
 }
